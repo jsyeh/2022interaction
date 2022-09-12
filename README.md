@@ -1,5 +1,7 @@
 # 2022互動技術
 
+# Week01
+
 ## step01-1_簡介、解壓縮
 
 https://zh.wikipedia.org/zh-tw/Processing
@@ -144,3 +146,184 @@ function keyPressed() {
 function initializeFields() {
 }
 ```
+
+
+# Week02
+
+今天的主題是卡片
+
+## step01-1_介紹線上點名的方法、複習上週的size()及rect(), 但修改參數,加上圓弧, 接下來讓同學可以自己做出卡片
+
+先畫出一張卡片 week02_1_one_card
+
+```processing
+//畫卡片
+size(500,500);
+int W=25;
+rect(100-10,100-10, 170, 270, 20); //弧度
+fill(#FF00F2);
+rect(100,100, 150, 250, 20); //弧度
+```
+
+
+```processing
+//畫卡片
+size(500,500);
+int W=20;
+rect(100-W/2,100-W/2, 150+W, 250+W, 20); //弧度
+fill(#FF00F2);
+rect(100,100, 150, 250, 20); //弧度
+```
+
+## step01-2_示範加減法,方便算出邊緣修改的量, 接下來利用自己發明的函式drawCard()來畫卡片, 配合參數, 讓卡片可以放在不同的位置
+
+```processing
+void setup(){
+  size(500,500);
+}
+int W=25;
+void draw(){
+  drawCard();//使用函式
+}
+void drawCard(){
+  fill(255);
+  rect(100-W/2,100-W/2, 150+W, 250+W, 20); //弧度
+  fill(#FF00F2);
+  rect(100,100, 150, 250, 20); //弧度  
+}
+```
+
+接下來修改函式, 讓它可接受不同的參數
+
+```processing
+void setup(){
+  size(500,500);
+}
+int W=25;
+void draw(){
+  drawCard(100,100);//使用函式
+  drawCard(130,130);//使用函式
+  drawCard(160,160);//使用函式
+}
+void drawCard(int x, int y){
+  fill(255);
+  rect(x-W/2,y-W/2, 150+W, 250+W, 20); //弧度
+  fill(#FF00F2);
+  rect(x,y, 150, 250, 20); //弧度  
+}
+```
+
+## step02-1_要改成PokerCard樸克牌, 所以將 drawCard()改寫成drawPokerCard()並將參數改變。這樣便能將牌面畫出來
+
+```processing
+void setup(){
+  size(500,500);
+}
+int W=25;
+void draw(){
+  drawPokerCard(100,100, "S4");//使用函式
+  drawPokerCard(130,150, "H3");//使用函式
+  drawPokerCard(160,200, "D5");//使用函式
+  drawPokerCard(190,250, "CJ");//使用函式
+}////牌面:黑桃Spade Heart, Dimand, Club
+void drawPokerCard(int x, int y, String face){ //牌面
+  fill(255);
+  rect(x-W/2,y-W/2, 150+W, 250+W, 20); //弧度
+  fill(#FF00F2);
+  rect(x,y, 150, 250, 20); //弧度
+  fill(0);
+  textSize(40);
+  text( face, x, y+40 );
+}
+```
+
+
+## step02-2_想要有中文字,所以createFont()準備好中文字型 標楷體,再利用textFont()設定字型,便能有中文
+
+```processing
+void setup(){
+  size(500,500);
+  PFont font = createFont("標楷體", 40);
+  textFont(font);
+}
+int W=25;
+void draw(){
+  drawPokerCard(100,100, "黑桃4");//使用函式
+  drawPokerCard(130,150, "紅心3");//使用函式
+  drawPokerCard(160,200, "方塊5");//使用函式
+  drawPokerCard(190,250, "梅花J");//使用函式
+}////牌面:黑桃Spade Heart, Dimand, Club
+void drawPokerCard(int x, int y, String face){ //牌面
+  fill(255);
+  rect(x-W/2,y-W/2, 150+W, 250+W, 20); //弧度
+  fill(#FF00F2);
+  rect(x,y, 150, 250, 20); //弧度
+  fill(0);//黑色的字
+  textSize(40);
+  text( face, x, y+40 );
+}
+```
+
+## step02-3_想要有不同的色彩的字,所以針對牌面的字分析,黑桃、梅花是黑色,所以不是黑桃也不是梅花,便是紅色。利用 indexOf()來完成測試判斷
+
+```processing
+void setup(){
+  size(500,500);
+  PFont font = createFont("標楷體", 40);
+  textFont(font);
+}
+int W=25;
+void draw(){
+  drawPokerCard(100,100, "黑桃4");//使用函式
+  drawPokerCard(130,150, "紅心3");//使用函式
+  drawPokerCard(160,200, "方塊5");//使用函式
+  drawPokerCard(190,250, "梅花J");//使用函式
+}////牌面:黑桃Spade Heart, Dimand, Club
+void drawPokerCard(int x, int y, String face){ //牌面
+  fill(255);
+  rect(x-W/2,y-W/2, 150+W, 250+W, 20); //弧度
+  fill(#6FF9FF);
+  rect(x,y, 150, 250, 20); //弧度
+  //fill(0);//黑色的字
+  if( face.indexOf("黑桃") == -1 && face.indexOf("梅花") == -1 ) fill(#FF0000);
+  else fill(0);
+  textSize(40);
+  text( face, x, y+40 );
+}
+```
+
+## step03-1_如何洗牌shuffle亂數洗牌, 想到之前教過random()亂數,可以拿來用。但是亂數有小數點怎麼辦,就取整數就好了。但是中文的花色名稱怎麼辦,利用陣列就好了。這裡比較難,希望大家可以順利。
+
+```processing
+void setup(){
+  size(500,500);
+  PFont font = createFont("標楷體", 40);
+  textFont(font);
+  String [] flower = {"黑桃","紅心","方塊","梅花"};//陣列
+  face1 = flower[int(random(4))] + int(random(13)+1);
+  face2 = flower[int(random(4))] + int(random(13)+1);
+  face3 = flower[int(random(4))] + int(random(13)+1);
+  face4 = flower[int(random(4))] + int(random(13)+1);
+  //取整數 0...12 所以再加1
+}//洗牌的英文 Shuffle
+String face1, face2, face3, face4;
+void draw(){
+  drawPokerCard(100,100, face1 );//使用函式
+  drawPokerCard(130,150, face2 );//使用函式
+  drawPokerCard(160,200, face3 );//使用函式
+  drawPokerCard(190,250, face4 );//使用函式
+}////牌面:黑桃Spade Heart, Dimand, Club
+void drawPokerCard(int x, int y, String face){ //牌面
+  int W=25;
+  fill(255);
+  rect(x-W/2,y-W/2, 150+W, 250+W, 20); //弧度
+  fill(#6FF9FF);
+  rect(x,y, 150, 250, 20); //弧度
+  //fill(0);//黑色的字
+  if( face.indexOf("黑桃") == -1 && face.indexOf("梅花") == -1 ) fill(#FF0000);
+  else fill(0);
+  textSize(40);
+  text( face, x, y+40 );
+}
+```
+
