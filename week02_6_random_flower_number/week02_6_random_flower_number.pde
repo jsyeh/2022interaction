@@ -9,6 +9,14 @@ void setup(){
   face4 = flower[int(random(4))] + int(random(13)+1);
   //取整數 0...12 所以再加1
 }//洗牌的英文 Shuffle
+void mousePressed(){
+  String [] flower = {"黑桃","紅心","方塊","梅花"};//陣列
+  face1 = flower[int(random(4))] + int(random(13)+1);
+  face2 = flower[int(random(4))] + int(random(13)+1);
+  face3 = flower[int(random(4))] + int(random(13)+1);
+  face4 = flower[int(random(4))] + int(random(13)+1);
+  //取整數 0...12 所以再加1  
+}
 String face1, face2, face3, face4;
 void draw(){
   drawPokerCard(100,100, face1 );//使用函式
