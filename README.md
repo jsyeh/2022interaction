@@ -327,3 +327,212 @@ void drawPokerCard(int x, int y, String face){ //牌面
 }
 ```
 
+# Week03
+
+主題: 撲克牌、圍棋、象棋
+
+1. (複習) 放牌、秀牌、洗牌
+2. 洗牌的正確方法: 
+2.1. 52張牌 0.....51
+2.2. 把它 兩兩亂數對調
+2.3. 取前面4張
+3. 如何選到牌
+4. class 物件
+
+心理學實驗--學習、記憶
+
+檢討Blog的內容、格式
+
+## step01-1_先把上週最後的程式拿來用, 同時加上 mousePressed()便呼叫 myShuffle()洗牌的功能
+
+```processing
+void setup(){
+  size(500,500);
+  PFont font = createFont("標楷體", 40);
+  textFont(font);
+  myShuffle();
+}//洗牌的英文 Shuffle
+void myShuffle(){
+  String [] flower = {"黑桃","紅心","方塊","梅花"};//陣列
+  face1 = flower[int(random(4))] + int(random(13)+1);
+  face2 = flower[int(random(4))] + int(random(13)+1);
+  face3 = flower[int(random(4))] + int(random(13)+1);
+  face4 = flower[int(random(4))] + int(random(13)+1);//取整數 0...12 所以再加1
+}
+void mousePressed(){
+  myShuffle();
+}
+String face1, face2, face3, face4;
+void draw(){
+  drawPokerCard(100,100, face1 );//使用函式
+  drawPokerCard(130,150, face2 );//使用函式
+  drawPokerCard(160,200, face3 );//使用函式
+  drawPokerCard(190,250, face4 );//使用函式
+}////牌面:黑桃Spade Heart, Dimand, Club
+void drawPokerCard(int x, int y, String face){ //牌面
+  int W=25;
+  fill(255);
+  rect(x-W/2,y-W/2, 150+W, 250+W, 20); //弧度
+  fill(#6FF9FF);
+  rect(x,y, 150, 250, 20); //弧度
+  //fill(0);//黑色的字
+  if( face.indexOf("黑桃") == -1 && face.indexOf("梅花") == -1 ) fill(#FF0000);
+  else fill(0);
+  textSize(40);
+  text( face, x, y+40 );
+}
+```
+
+## step01-2_為了讓洗牌更合理, 我們打算一步步重新修改程式。首先先能畫出52張牌
+
+```processing
+void setup(){
+  size(700,700);
+}
+void draw(){
+  background(#FFFFF2);
+  for(int i=0; i<52; i++){ //迴圈
+    int x = (i%10)*60; //除法10餘數,個位數
+    int y = int(i/10)*120;//十位數
+    rect( x, y, 60,120 );
+  }
+}
+```
+其中比較難懂的地方, 是 `int x = (i%10)*60;` 及 `int y = int(i/10)*120;` 這個部分, 使用到取餘數的方法, 得到個位數、十位數。這樣便能讓每個牌的座標合理。
+
+## step02-1_接下來想要把卡片的牌面faces都秀出來, 所以要使用中文字型、要宣告52張牌的版面的陣列, 再把中文字秀出來。
+
+```processing
+void setup(){
+  size(700,700);
+  PFont font = createFont("標楷體", 10);
+  textFont(font);
+}
+String [] faces = {
+  "黑桃A","黑桃2","黑桃3","黑桃4","黑桃5","黑桃6","黑桃7","黑桃8","黑桃9","黑桃10","黑桃J","黑桃Q","黑桃K",
+  "黑桃A","黑桃2","黑桃3","黑桃4","黑桃5","黑桃6","黑桃7","黑桃8","黑桃9","黑桃10","黑桃J","黑桃Q","黑桃K",
+  "黑桃A","黑桃2","黑桃3","黑桃4","黑桃5","黑桃6","黑桃7","黑桃8","黑桃9","黑桃10","黑桃J","黑桃Q","黑桃K",
+  "黑桃A","黑桃2","黑桃3","黑桃4","黑桃5","黑桃6","黑桃7","黑桃8","黑桃9","黑桃10","黑桃J","黑桃Q","黑桃K" };
+void draw(){
+  background(#FFFFF2);
+  for(int i=0; i<52; i++){ //迴圈
+    int x = (i%10)*60; //除法10餘數,個位數
+    int y = int(i/10)*120;//十位數
+    fill(255); rect( x, y, 60, 120 );
+    fill(0);   text( faces[i], x+25, y+80);//text( "ID:"+i, x+25, y+80);
+  }
+}
+```
+
+## step02-2_想要讓畫面漂亮一點, 我們做了一些修正, 像是一行改成13張牌, 所以就把取餘數10,改成取餘數13。改一下角色,把座標改一下,把字型改一下,把陣列改一下, 就好了哦
+
+```processing
+void setup(){
+  size(800,600);
+  PFont font = createFont("標楷體", 16);
+  textFont(font);
+}
+String [] faces = {
+  "黑桃A","黑桃2","黑桃3","黑桃4","黑桃5","黑桃6","黑桃7","黑桃8","黑桃9","黑桃10","黑桃J","黑桃Q","黑桃K",
+  "紅心A","紅心2","紅心3","紅心4","紅心5","紅心6","紅心7","紅心8","紅心9","紅心10","紅心J","紅心Q","紅心K",
+  "方塊A","方塊2","方塊3","方塊4","方塊5","方塊6","方塊7","方塊8","方塊9","方塊10","方塊J","方塊Q","方塊K",
+  "梅花A","梅花2","梅花3","梅花4","梅花5","梅花6","梅花7","梅花8","梅花9","梅花10","梅花J","梅花Q","梅花K" };
+void draw(){
+  background(#FFFFF2);
+  for(int i=0; i<52; i++){ //迴圈
+    int x = (i%13)*60; //除法10餘數,個位數
+    int y = int(i/13)*120;//十位數
+    fill(255); rect( x, y, 60, 120 );
+    if( faces[i].indexOf("紅心")==-1 && faces[i].indexOf("方塊")==-1) fill(0);
+    else fill(255,0,0);
+    text( faces[i], x+10, y+60);//text( "ID:"+i, x+25, y+80);
+  }
+}
+```
+
+## step03-1_要用新的洗牌法, 就是亂數決定2張牌, 左手a,右手b, 然後用 temp=a;a=b;b=temp; 的方法做交換。交換很多次後, 牌就會很亂了。
+
+```processing
+void setup(){
+  size(800,600);
+  PFont font = createFont("標楷體", 16);
+  textFont(font);
+}
+String [] faces = {
+  "黑桃A","黑桃2","黑桃3","黑桃4","黑桃5","黑桃6","黑桃7","黑桃8","黑桃9","黑桃10","黑桃J","黑桃Q","黑桃K",
+  "紅心A","紅心2","紅心3","紅心4","紅心5","紅心6","紅心7","紅心8","紅心9","紅心10","紅心J","紅心Q","紅心K",
+  "方塊A","方塊2","方塊3","方塊4","方塊5","方塊6","方塊7","方塊8","方塊9","方塊10","方塊J","方塊Q","方塊K",
+  "梅花A","梅花2","梅花3","梅花4","梅花5","梅花6","梅花7","梅花8","梅花9","梅花10","梅花J","梅花Q","梅花K" };
+void draw(){
+  background(#FFFFF2);
+  for(int i=0; i<52; i++){ //迴圈
+    int x = (i%13)*60; //除法10餘數,個位數
+    int y = int(i/13)*120;//十位數
+    fill(255); rect( x, y, 60, 120 );
+    if( faces[i].indexOf("紅心")==-1 && faces[i].indexOf("方塊")==-1) fill(0);
+    else fill(255,0,0);
+    text( faces[i], x+10, y+60);//text( "ID:"+i, x+25, y+80);
+  }
+}
+void mousePressed(){
+  int a = int(random(52));
+  int b = int(random(52));
+  //目標: faces[a] vs. faces[b] 交換
+  String temp = faces[a];
+  faces[a] = faces[b];
+  faces[b] = temp;
+}
+```
+
+## step03_2_接下來將 week03-1 與上週的程式結合。以上週的程式為基底(湯底),再加上今天的精華內容, 便能做出(表面上看起來一樣,但)實質上洗牌法不同的程式
+
+```processing
+//這個程式,是以 week03-1 當湯底, 加上 week03-5 的 3段小程式 的牛、羊、豬肉 來調味
+void setup(){
+  size(500,500);
+  PFont font = createFont("標楷體", 40);
+  textFont(font);
+  myShuffle();
+}//洗牌的英文 Shuffle
+String [] faces = {
+  "黑桃A","黑桃2","黑桃3","黑桃4","黑桃5","黑桃6","黑桃7","黑桃8","黑桃9","黑桃10","黑桃J","黑桃Q","黑桃K",
+  "紅心A","紅心2","紅心3","紅心4","紅心5","紅心6","紅心7","紅心8","紅心9","紅心10","紅心J","紅心Q","紅心K",
+  "方塊A","方塊2","方塊3","方塊4","方塊5","方塊6","方塊7","方塊8","方塊9","方塊10","方塊J","方塊Q","方塊K",
+  "梅花A","梅花2","梅花3","梅花4","梅花5","梅花6","梅花7","梅花8","梅花9","梅花10","梅花J","梅花Q","梅花K" };
+void myShuffle(){
+  for(int k=0; k<10000; k++){
+    int a = int(random(52));
+    int b = int(random(52));
+    //目標: faces[a] vs. faces[b] 交換
+    String temp = faces[a];
+    faces[a] = faces[b];
+    faces[b] = temp; 
+  }
+  face1 = faces[0];
+  face2 = faces[1];
+  face3 = faces[2];
+  face4 = faces[3];
+}
+void mousePressed(){
+  myShuffle();
+}
+String face1, face2, face3, face4;
+void draw(){
+  drawPokerCard(100,100, face1 );//使用函式
+  drawPokerCard(130,150, face2 );//使用函式
+  drawPokerCard(160,200, face3 );//使用函式
+  drawPokerCard(190,250, face4 );//使用函式
+}////牌面:黑桃Spade Heart, Dimand, Club
+void drawPokerCard(int x, int y, String face){ //牌面
+  int W=25;
+  fill(255);
+  rect(x-W/2,y-W/2, 150+W, 250+W, 20); //弧度
+  fill(#6FF9FF);
+  rect(x,y, 150, 250, 20); //弧度
+  //fill(0);//黑色的字
+  if( face.indexOf("黑桃") == -1 && face.indexOf("梅花") == -1 ) fill(#FF0000);
+  else fill(0);
+  textSize(40);
+  text( face, x, y+40 );
+}
+```
