@@ -536,3 +536,224 @@ void drawPokerCard(int x, int y, String face){ //牌面
   text( face, x, y+40 );
 }
 ```
+
+# Week04
+
+1. 主題1: iPhone 14 動態島的打彈珠/磚塊
+2. 主題2: 圍棋
+
+## step01-1_想要做出打磚塊、打彈珠,要使用牛頓定律,首先是靜者恆靜、動者恆動,所以就讓 x += 1 及 y += -1 看到它在動
+主題1: 打磚塊
+
+物理學家-牛頓 
+靜者恆靜、動者恆動 
+x位置, v速度, a加速度
+
+```processing
+void setup(){
+  size(500,500);
+}
+int x=250, y=250;//變數(位置)
+void draw(){
+  ellipse( x, y, 10, 10 );//橢圓
+  x = x + 1;
+  y = y - 1;
+}
+```
+
+## step01-2_接下來,利用變數 vx 及 vy 來增加變化, 同時改成float更精細。最後用if判斷,讓它可以撞到牆反彈,也就是速度變成負方向
+
+```processing
+void setup(){
+  size(500,500);
+}
+float x=250  , y=250;//變數(位置)精細
+float vx=1.0 , vy = -0.5 ;
+void draw(){
+  ellipse( x, y, 10, 10 );//橢圓
+  x = x + vx;
+  y = y + vy;
+  if( x > 500 ) vx = -vx;
+  if( y < 0 ) vy = -vy;
+  if( x < 0 ) vx = -vx; 
+}
+```
+
+## step01-3_想要碰到board之後反彈,所以寫了一個複雜的if(判斷)
+
+```processing
+void setup(){
+  size(500,500);
+}
+float x=250  , y=250;//變數(位置)精細
+float vx=2.0 , vy = -1.5 ;
+void draw(){
+  background(#FFFFF2); //背景,去除殘影
+  int boardX = mouseX;
+  rect(boardX, 470, 100, 20); //控制的板子
+  ellipse( x, y, 10, 10 );//橢圓
+  x = x + vx;
+  y = y + vy;
+  if( x > 500 ) vx = -vx;
+  if( y < 0 ) vy = -vy;
+  if( x < 0 ) vx = -vx; 
+  if( y>470 && x>boardX && x<boardX+100 ) vy = -vy;
+}
+```
+
+## step02-1_最後利用 boardX boardY boardW boardH 這些變數,來增加一些變化,並讓判斷可以更有彈性
+
+```processing
+void setup(){
+  size(500,500);
+}
+float x=250  , y=250;//變數(位置)精細
+float vx=2.0 , vy = -2.5 ;
+float boardX, boardY=470, boardW=100, boardH=20;
+void draw(){
+  boardX = mouseX-boardW/2;
+  background(#FFFFF2); //背景,去除殘影
+  rect(boardX, boardY, boardW, boardH); //控制的板子
+  ellipse( x, y, 10, 10 );//橢圓
+  x = x + vx;
+  y = y + vy;
+  if( x > 500 ) vx = -vx;
+  if( y < 0 ) vy = -vy;
+  if( x < 0 ) vx = -vx; 
+  if( (y>boardY && y<boardY+boardH) && 
+      (x>boardX && x<boardX+boardW) ){
+    vy = -vy;
+    vx += (mouseX-pmouseX)/2; //mouse的移動速度
+  }
+  if(mousePressed && mouseButton==LEFT) boardW *= 1.01; //每天多努力 1%
+  if(mousePressed && mouseButton==RIGHT) boardW *=0.99; //每天多混 1%
+}
+```
+
+## step02-2_想要做圍棋,所以先畫出一個棋子,再利用for迴圈,畫出9x9的棋子
+主題2: 圍棋
+
+```processing
+void setup(){
+  size(500,500);
+}
+void draw(){
+  //用迴圈,來畫出很多棋
+  for(int x=50; x<=450; x+=50 ){ 
+    for(int y=50; y<=450; y+=50 ){
+      ellipse(x, y, 50, 50);
+    }
+  }
+}
+```
+
+## step02-3_剛剛的迴圈長得很奇怪, 但過程中,讓我們了解x,y座標是怎麼推算出來的。接下來, 我們想要結合for迴圈+陣列,所以利用陣列的值,來把圍棋畫出來。
+
+```processing
+void setup(){
+  size(500,500);
+}
+int [][] go ={
+  {0,0,0,0,0,0,0,0,1},
+  {0,0,0,0,0,0,0,0,1},
+  {0,1,0,0,0,0,0,0,1},
+  {0,0,0,0,0,0,1,0,1},
+  {0,0,0,0,0,0,0,0,1},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+}; //陣列 array  9x9
+void draw(){ //用迴圈,來畫出很多棋
+  //background(246, 194, 108);
+  for(int i=0; i<9; i++ ){//左手i 對應y座標
+    for(int j=0; j<9; j++ ){//右手j 對應x座標
+      if( go[i][j]==1) fill(0);
+      else fill(255);
+      ellipse(50+j*50, 50+i*50, 50, 50);
+    }
+  }
+}
+```
+
+## step03-1_畫出棋盤,再利用陣列的值,來決定是黑子、白子
+```processing
+void setup(){
+  size(500,500);
+}
+int [][] go ={ //0: 沒有棋子, 1:黑棋, 2:白棋
+  {0,0,0,0,0,0,0,0,1},
+  {0,0,0,0,0,0,0,0,1},
+  {0,1,0,0,0,0,0,2,1},
+  {0,0,0,0,0,0,1,0,1},
+  {0,0,0,0,0,0,0,0,1},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+}; //陣列 array  9x9
+void mousePressed(){
+  
+}
+void draw(){ //用迴圈,來畫出很多棋
+  background(246, 194, 108); //木頭色的棋盤
+  for(int i=1; i<=9; i++){ //用迴圈,畫很多條線
+    line(50, 50*i, 450, 50*i); //湊出來的
+    line(50*i, 50, 50*i, 450); //湊出來的
+  }
+  for(int i=0; i<9; i++ ){//左手i 對應y座標
+    for(int j=0; j<9; j++ ){//右手j 對應x座標
+      if( go[i][j]==1){
+        fill(0); //1:黑棋,
+        ellipse(50+j*50, 50+i*50, 40, 40);
+      }else if( go[i][j]==2){
+        fill(255); //2:白棋
+        ellipse(50+j*50, 50+i*50, 40, 40);
+      }
+    }
+  }
+}
+```
+
+## step03-2_最後圍棋可以利用mousePressed()來算出棋子放在哪裡,再去修改陣列的值。go[i][j]=多少呢 可以利用奇數、偶數,來決定是什麼顏色的棋子
+```processing
+void setup(){
+  size(500,500);
+}
+int [][] go ={ //0: 沒有棋子, 1:黑棋, 2:白棋
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0},
+}; //陣列 array  9x9
+int N=0; //目前有幾個棋子
+void mousePressed(){
+  int j = (mouseX-25)/50; //右手j, 對應x座標
+  int i = (mouseY-25)/50; //左手i, 對應y座標
+  go[i][j] = (N%2==0) ? 1 : 2 ;  ///if(N%2==) 用1,否則2
+  N++;//多了一個棋子
+}
+void draw(){ //用迴圈,來畫出很多棋
+  background(246, 194, 108); //木頭色的棋盤
+  for(int i=1; i<=9; i++){ //用迴圈,畫很多條線
+    line(50, 50*i, 450, 50*i); //湊出來的
+    line(50*i, 50, 50*i, 450); //湊出來的
+  }
+  for(int i=0; i<9; i++ ){//左手i 對應y座標
+    for(int j=0; j<9; j++ ){//右手j 對應x座標
+      if( go[i][j]==1){
+        fill(0); //1:黑棋,
+        ellipse(50+j*50, 50+i*50, 40, 40);
+      }else if( go[i][j]==2){
+        fill(255); //2:白棋
+        ellipse(50+j*50, 50+i*50, 40, 40);
+      }
+    }
+  }
+}
+```
