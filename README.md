@@ -1207,3 +1207,437 @@ void drawChess(int x, int y, int id){
     }
 }
 ```
+
+# Week07
+1. 複習象棋暗棋(缺亂數shuffle)
+2. 記憶卡片遊戲
+3. 打字遊戲、水果忍者/鍵盤忍者
+
+## step01-1_今天的第1個目標,是把上次上課時, 象棋暗棋做完。但上次沒有把暗棋的位置弄亂, 所以接續上週的程式, 先把有錯的程式, 像是紅色、黑色的字弄對name[i][j] vs. name2[i][j]。還有 for迴圈的範圍弄對。接下來, 利用 for迴圈跑1000次, 亂數決定 i1,j1 及 i2,j2 以便做棋子的交換,便完成洗牌。
+
+
+```processing
+int [][]show={
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0}
+};//翻牌前, 0 都不會秀哦! 
+int [][]board={
+  { 1, 2, 2, 3, 3, 4, 4, 5},
+  { 5, 6, 6, 7, 7, 7, 7, 7},
+  {-1,-2,-2,-3,-3,-4,-4,-5},
+  {-5,-6,-6,-7,-7,-7,-7,-7}
+}; //暗棋的格子,比較少 4x8=32個棋子
+void setup(){
+  size(500,300);
+  PFont font = createFont("標楷體", 30);
+  textFont(font);
+  textAlign(CENTER, CENTER);
+  for(int k=0; k<1000; k++){ //很多次洗牌1000次
+    int i1= int(random(4)), j1=int(random(8));
+    int i2= int(random(4)), j2=int(random(8));
+    int temp= board[i1][j1];
+    board[i1][j1]=board[i2][j2];
+    board[i2][j2]=temp;
+  } //這個迴圈是新加的暗棋的洗牌
+}
+void draw(){
+  background(#F0B82C);
+  for (int x=50; x<=450; x+=50) {
+    line( x, 50, x, 250);
+  }
+  for (int y=50; y<=250; y+=50) {
+    line( 50, y, 450, y);
+  }  
+  for(int i=0; i<4; i++){
+    for(int j=0; j<8; j++){
+      if(show[i][j]==0){
+        fill(255);
+        ellipse( 50+25+j*50, 50+25+i*50, 40, 40);        
+      }else{
+        int id = board[i][j];
+        drawChess(50+25+j*50, 50+25+i*50, id);
+      }
+    }
+  }
+}
+void mousePressed(){
+  for(int i=0; i<4; i++){ //10 這是錯的,要改成 4
+    for(int j=0; j<8; j++){ //9 這是錯的,要改成 8
+      if(dist(mouseX,mouseY,50+25+j*50,50+25+i*50)<20){
+        if( show[i][j]==0 ) show[i][j] = 1; //沒秀? 秀它
+        //之後再加棋子的移動
+      }
+    }
+  }
+}
+String [] name = {"將", "士", "象", "車", "馬", "包", "卒"};
+String [] name2 = {"帥", "仕", "相", "俥", "傌", "炮", "兵"};
+void drawChess(int x, int y, int id){
+    fill(255);
+    ellipse( x, y, 40, 40);
+    if(id>0){//黑
+      fill(0);
+      text( name[id-1], x, y-3);///之前老師的程式有錯哦!!!!
+    }else{//紅
+      fill(255,0,0);
+      text( name2[-id-1], x, y-3);
+    }
+}
+```
+
+## step01-2_想要讓棋子可以移動,應該要先能選棋子,所以我們用綠色,來標示我們要移動的棋子
+
+```processing
+int [][]show={
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0}
+};//翻牌前, 0 都不會秀哦! 
+int [][]board={
+  { 1, 2, 2, 3, 3, 4, 4, 5},
+  { 5, 6, 6, 7, 7, 7, 7, 7},
+  {-1,-2,-2,-3,-3,-4,-4,-5},
+  {-5,-6,-6,-7,-7,-7,-7,-7}
+}; //暗棋的格子,比較少 4x8=32個棋子
+void setup(){
+  size(500,300);
+  PFont font = createFont("標楷體", 30);
+  textFont(font);
+  textAlign(CENTER, CENTER);
+  for(int k=0; k<1000; k++){ //很多次洗牌1000次
+    shuffle_one();
+  } //這個迴圈是新加的暗棋的洗牌
+}
+void shuffle_one(){
+  int i1= int(random(4)), j1=int(random(8));
+  int i2= int(random(4)), j2=int(random(8));
+  int temp= board[i1][j1];
+  board[i1][j1]=board[i2][j2];
+  board[i2][j2]=temp;  
+}
+void draw(){
+  background(#F0B82C);
+  for (int x=50; x<=450; x+=50) {
+    line( x, 50, x, 250);
+  }
+  for (int y=50; y<=250; y+=50) {
+    line( 50, y, 450, y);
+  }  
+  for(int i=0; i<4; i++){
+    for(int j=0; j<8; j++){
+      if(show[i][j]==0){
+        fill(255);
+        ellipse( 50+25+j*50, 50+25+i*50, 40, 40);        
+      }else{
+        int id = board[i][j];
+        drawChess(50+25+j*50, 50+25+i*50, id);
+      }
+    }
+  }
+  if(moving){
+    drawChess(50+25+moveJ*50, 50+25+moveI*50, 9); ///9很怪
+  }
+}
+int moveI = -1, moveJ = -1;
+boolean moving = false; //不是移動中
+void mousePressed(){
+  for(int i=0; i<4; i++){ //10 這是錯的,要改成 4
+    for(int j=0; j<8; j++){ //9 這是錯的,要改成 8
+      if(dist(mouseX,mouseY,50+25+j*50,50+25+i*50)<20){
+        if( show[i][j]==0 ) show[i][j] = 1; //沒秀? 秀它
+        else {
+          moveI = i; //我們想移動的棋子 i座標
+          moveJ = j; //我們想移動的棋子 j座標
+          moving = true; //現在移動中
+        }//現在要加棋子的移動
+      }
+    }
+  }
+}
+String [] name = {"將", "士", "象", "車", "馬", "包", "卒"};
+String [] name2 = {"帥", "仕", "相", "俥", "傌", "炮", "兵"};
+void drawChess(int x, int y, int id){
+    fill(255);
+    ellipse( x, y, 40, 40);
+    if(id==9){//待移動中的棋子
+      fill(0,255,0);//綠色
+      ellipse( x, y, 40, 40);
+    }else if(id>0){//黑
+      fill(0);
+      text( name[id-1], x, y-3);///之前老師的程式有錯哦!!!!
+    }else{//紅
+      fill(255,0,0);
+      text( name2[-id-1], x, y-3);
+    }
+}
+```
+
+
+## step02-1_想要移動棋子時, 需要先確定誰要被移動。之前是用全綠去畫棋子,其實不太好。所以, 我們改成2步驟, (1) 改用 fill(0,255,0, 128) 半透明的綠色圓,蓋在棋子上, (2) 利用 moveID 來畫那個隨著mouse移動、手正持著的棋子
+
+```processing
+int [][]show={
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0}
+};//翻牌前, 0 都不會秀哦! 
+int [][]board={
+  { 1, 2, 2, 3, 3, 4, 4, 5},
+  { 5, 6, 6, 7, 7, 7, 7, 7},
+  {-1,-2,-2,-3,-3,-4,-4,-5},
+  {-5,-6,-6,-7,-7,-7,-7,-7}
+}; //暗棋的格子,比較少 4x8=32個棋子
+void setup(){
+  size(500,300);
+  PFont font = createFont("標楷體", 30);
+  textFont(font);
+  textAlign(CENTER, CENTER);
+  for(int k=0; k<1000; k++){ //很多次洗牌1000次
+    shuffle_one();
+  } //這個迴圈是新加的暗棋的洗牌
+}
+void shuffle_one(){
+  int i1= int(random(4)), j1=int(random(8));
+  int i2= int(random(4)), j2=int(random(8));
+  int temp= board[i1][j1];
+  board[i1][j1]=board[i2][j2];
+  board[i2][j2]=temp;  
+}
+void draw(){
+  background(#F0B82C);
+  for (int x=50; x<=450; x+=50) {
+    line( x, 50, x, 250);
+  }
+  for (int y=50; y<=250; y+=50) {
+    line( 50, y, 450, y);
+  }  
+  for(int i=0; i<4; i++){
+    for(int j=0; j<8; j++){
+      if(show[i][j]==0){
+        fill(255);
+        ellipse( 50+25+j*50, 50+25+i*50, 40, 40);        
+      }else{
+        int id = board[i][j];
+        drawChess(50+25+j*50, 50+25+i*50, id);
+      }
+    }
+  }
+  if(moving){
+    fill(0,255,0, 128); //綠色, 半透明
+    ellipse(50+25+moveJ*50, 50+25+moveI*50, 40,40);//原來的位置
+    
+    drawChess(mouseX, mouseY, moveID); //正在飛行、移動的棋子
+  }
+}
+int moveI = -1, moveJ = -1, moveID = -1;
+boolean moving = false; //不是移動中
+void mousePressed(){//按下去,準備要吃
+  for(int i=0; i<4; i++){ //10 這是錯的,要改成 4
+    for(int j=0; j<8; j++){ //9 這是錯的,要改成 8
+      if(dist(mouseX,mouseY,50+25+j*50,50+25+i*50)<20){
+        if( show[i][j]==0 ) show[i][j] = 1; //沒秀? 秀它
+        else {
+          moveI = i; //我們想移動的棋子 i座標
+          moveJ = j; //我們想移動的棋子 j座標
+          moveID = board[i][j];
+          moving = true; //現在移動中
+        }//現在要加棋子的移動
+      }
+    }
+  }
+}
+String [] name = {"將", "士", "象", "車", "馬", "包", "卒"};
+String [] name2 = {"帥", "仕", "相", "俥", "傌", "炮", "兵"};
+void drawChess(int x, int y, int id){
+    fill(255);
+    ellipse( x, y, 40, 40);
+    //if(id==9){//待移動中的棋子
+    //  fill(0,255,0);//綠色
+    //  ellipse( x, y, 40, 40);
+    //}else 
+    if(id>0){//黑
+      fill(0);
+      text( name[id-1], x, y-3);///之前老師的程式有錯哦!!!!
+    } else {//紅
+      fill(255,0,0);
+      text( name2[-id-1], x, y-3);
+    }
+}
+```
+
+## step02-2_在moving時,mouseReleased()時,要把棋子移動過去, 也就是先把原本位置 board[moveI][moveJ] 清空,再把 board[i][j]=moveID, 便能做出移動棋子的效果。另外要小心,如果drawChess()時,如果id是0表示是空的,便不要畫它哦
+
+```processing
+int [][]show={
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0},
+  { 0, 0, 0, 0, 0, 0, 0, 0}
+};//翻牌前, 0 都不會秀哦! 
+int [][]board={
+  { 1, 2, 2, 3, 3, 4, 4, 5},
+  { 5, 6, 6, 7, 7, 7, 7, 7},
+  {-1,-2,-2,-3,-3,-4,-4,-5},
+  {-5,-6,-6,-7,-7,-7,-7,-7}
+}; //暗棋的格子,比較少 4x8=32個棋子
+void setup(){
+  size(500,300);
+  PFont font = createFont("標楷體", 30);
+  textFont(font);
+  textAlign(CENTER, CENTER);
+  for(int k=0; k<1000; k++){ //很多次洗牌1000次
+    shuffle_one();
+  } //這個迴圈是新加的暗棋的洗牌
+}
+void shuffle_one(){
+  int i1= int(random(4)), j1=int(random(8));
+  int i2= int(random(4)), j2=int(random(8));
+  int temp= board[i1][j1];
+  board[i1][j1]=board[i2][j2];
+  board[i2][j2]=temp;  
+}
+void draw(){
+  background(#F0B82C);
+  for (int x=50; x<=450; x+=50) {
+    line( x, 50, x, 250);
+  }
+  for (int y=50; y<=250; y+=50) {
+    line( 50, y, 450, y);
+  }  
+  for(int i=0; i<4; i++){
+    for(int j=0; j<8; j++){
+      if(show[i][j]==0){
+        fill(255);
+        ellipse( 50+25+j*50, 50+25+i*50, 40, 40);        
+      }else{
+        int id = board[i][j];
+        drawChess(50+25+j*50, 50+25+i*50, id);
+      }
+    }
+  }
+  if(moving){
+    fill(0,255,0, 128); //綠色, 半透明
+    ellipse(50+25+moveJ*50, 50+25+moveI*50, 40,40);//原來的位置
+    
+    drawChess(mouseX, mouseY, moveID); //正在飛行、移動的棋子
+  }
+}
+int moveI = -1, moveJ = -1, moveID = -1;
+boolean moving = false; //不是移動中
+void mousePressed(){//按下去,準備要吃
+  for(int i=0; i<4; i++){ //10 這是錯的,要改成 4
+    for(int j=0; j<8; j++){ //9 這是錯的,要改成 8
+      if(dist(mouseX,mouseY,50+25+j*50,50+25+i*50)<20){
+        if( show[i][j]==0 ) show[i][j] = 1; //沒秀? 秀它
+        else {
+          moveI = i; //我們想移動的棋子 i座標
+          moveJ = j; //我們想移動的棋子 j座標
+          moveID = board[i][j];
+          moving = true; //現在移動中
+        }//現在要加棋子的移動
+      }
+    }
+  }
+}
+void mouseReleased(){//放開時,就把「它」吃掉
+  for(int i=0; i<4; i++){
+    for(int j=0; j<8; j++){
+      if(dist(mouseX,mouseY,50+25+j*50,50+25+i*50)<20){
+        if( moving ){
+          board[moveI][moveJ]=0;
+          board[i][j]=moveID;
+          moving = false;
+        }
+      }
+    }
+  }
+}
+String [] name = {"將", "士", "象", "車", "馬", "包", "卒"};
+String [] name2 = {"帥", "仕", "相", "俥", "傌", "炮", "兵"};
+void drawChess(int x, int y, int id){
+    if(id==0) return; //沒有棋子,就不要進來
+    fill(255);
+    ellipse( x, y, 40, 40);
+    //if(id==9){//待移動中的棋子
+    //  fill(0,255,0);//綠色
+    //  ellipse( x, y, 40, 40);
+    //}else 
+    if(id>0){//黑
+      fill(0);
+      text( name[id-1], x, y-3);///之前老師的程式有錯哦!!!!
+    } else {//紅
+      fill(255,0,0);
+      text( name2[-id-1], x, y-3);
+    }
+}
+```
+
+## step03-1_想要播放音樂,先從 keyboard ninja 網頁下載它的音樂素材 mp3 檔。接著在 Processing-Sketch-Libraries-Manage Libraries裡,找到Sound並且下載。最後在程式中, import完之後, 使用 SoundFile 物件,便能play播放它
+
+
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/app.min.446.js
+
+可以在它的程式裡, 找到許多 mp3 檔, 類以以下網址
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Intro%20Song_Final.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/In%20Game%20Music.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/SparkSFX.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Fruit%20Missed.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Cannon%20Blast.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Monkey%201.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Monkey%202.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Monkey%203.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Monkey%204.mp3
+- https://www.typing.com/dist/student/extras/game_files/keyboard-ninja/sounds/Gong.mp3
+
+把你的程式存新的檔案 week07_3
+把下載的 mp3 檔, 拉到程式碼, 便會將檔案 copy 到你的專案目錄中。
+
+```processing
+//存檔, mp3拉近來, Ctrl-K看檔案
+import processing.sound.*; //音樂功能 
+//使用外掛, 要先把外掛裝起來!!!!
+
+void setup(){
+  SoundFile file = new SoundFile(this, "Intro Song_Final.mp3");
+  file.play();
+}
+void draw(){
+  
+}
+void mousePressed(){
+  SoundFile file2 = new SoundFile(this, "In Game Music.mp3");
+  file2.play();
+}
+```
+
+## step03-2_如果音樂檔案很多,應該要在外面宣告SoundFile變數, 在 setup()裡把它們準備好, 然後重覆使用這些變數
+
+```processing
+//存檔, mp3拉近來, Ctrl-K看檔案
+import processing.sound.*; //音樂功能 
+//使用外掛, 要先把外掛裝起來!!!! 
+// Sketch-Library-Manage Libraries, 找 Sound 再裝它
+SoundFile file1, file2, file3, file4;
+void setup(){
+  file1 = new SoundFile(this, "Intro Song_Final.mp3");
+  file2 = new SoundFile(this, "In Game Music.mp3");
+  file3 = new SoundFile(this, "Monkey 1.mp3");
+  file4 = new SoundFile(this, "Fruit Missed.mp3");
+  
+  file1.play();
+}
+void draw(){
+  
+}
+void mousePressed(){
+  file2.play();
+}
+void keyPressed(){
+  file3.play();
+}
+```
+
