@@ -1641,3 +1641,287 @@ void keyPressed(){
 }
 ```
 
+# Week08
+
+## step01-0_介紹今天要上課的主題
+1. 接續上週的鍵盤忍者
+2. 金鐘獎頒獎時, 有個倒數計時的畫面, 很想做做看
+3. 期中成績會看blog, 期中作品有1個月的時間, 期末作品也約1個月
+
+## step01-1_接續上週的SoundFile播放音樂, 先寫出最精簡的程式, 再改成2個音樂,在不同的場景中輪流播放。
+
+```processing
+//(0) 先照Moodle在網路下載 mp3檔
+//(1) 安裝 Sketch-Library-Manage Libraries 裝 Sound
+import processing.sound.*;
+SoundFile sound1, sound2, sound3;
+//(2) 程式存檔, 把音樂檔拉進來
+void setup(){
+  size(400,300);
+  sound1 = new SoundFile(this, "In Game Music.mp3");
+  sound1.play();
+}
+void draw(){
+  
+}
+```
+
+## step01-2_再改成2個音樂,在不同的場景中輪流播放。
+
+```processing
+import processing.sound.*;
+SoundFile sound1, sound2, sound3;
+//(2) 程式存檔, 把音樂檔拉進來
+void setup(){
+  size(400,300);
+  textSize(50);
+  fill(255,0,0);
+  sound1 = new SoundFile(this, "In Game Music.mp3");
+  sound2 = new SoundFile(this, "Intro Song_Final.mp3");
+  sound1.play();
+}
+int stage=1;//1, 2, 3
+void draw(){
+  background(255);
+  if(stage==1){ //舞台1
+    text("stage 1", 100,100);
+  }else if(stage==2){ //舞台2
+    text("stage 2", 100,100);
+  }
+}
+void mousePressed(){
+  if(stage==1){ //
+    stage=2;
+    sound1.stop();
+    sound2.play();
+  }else if(stage==2){
+    stage=1;
+    sound2.stop();
+    sound1.play();
+  }
+}
+```
+
+## step01-3_因為有同學在step01-2實作有卡住, 所以利用簡化的程式,示範如何利用 int stage 這個整數, 來決定是在第幾關、第幾個舞台
+
+```processing
+void setup(){
+  size(400,300);
+}
+int stage=1;//1:start, 2:playing
+void draw(){
+  background(255,255,0);
+  fill(255,0,0);
+  textSize(80);
+  if(stage==1){
+    text("stage 1", 100,100);
+  }else if(stage==2){
+    text("stage 2", 100,100);
+  }
+}
+void mousePressed(){
+  if(stage==1) stage=2;
+  else if(stage==2) stage=1;
+}
+```
+
+## step02-1_為了做出水果忍者、鍵盤忍者裡,會飛的水果,所以利用fruitX, fruitY, fruitVX, fruitVY 來調整水果的位置, 並用 flying 變數,來決定水果是不是在飛
+
+```processing
+//目標: 有個水果可以飛起來!!!
+//按按鍵,可以把它消掉
+void setup(){
+  size(400,300);
+}
+float fruitX=200, fruitY=300;//水果的位置 X Y有小數點,精確
+float fruitVX=2, fruitVY=-13;///水果的速度 VX VY
+boolean flying=true; //if()好朋友,布林變數 true false 成立 不成立
+void draw(){
+  background(255,255,0);//黃色的背景
+  
+  ellipse(fruitX, fruitY, 50,50);
+  if(flying){//如果在飛,水果的位置會改變
+    fruitX += fruitVX;
+    fruitY += fruitVY;
+    fruitVY += 0.98/3;//重力加速度
+  }
+}
+void keyPressed(){
+  flying=false;
+}
+```
+
+## step02-2_增加 fruitReset()的函式, 會幫忙將 fruit 的狀態reset, 變成另一個重新丟出來的水果
+
+```processing
+//目標: 有個水果可以飛起來!!!
+//按按鍵,可以把它消掉
+void setup(){
+  size(400,300);
+}
+float fruitX=200, fruitY=300;//水果的位置 X Y有小數點,精確
+float fruitVX=2, fruitVY=-13;///水果的速度 VX VY
+boolean flying=true; //if()好朋友,布林變數 true false 成立 不成立
+void draw(){
+  background(255,255,0);//黃色的背景
+  
+  ellipse(fruitX, fruitY, 50,50);
+  if(flying){//如果在飛,水果的位置會改變
+    fruitX += fruitVX;
+    fruitY += fruitVY;
+    fruitVY += 0.98/3;//重力加速度
+  }
+}
+void keyPressed(){
+  flying=false;
+  fruitReset(); ///重新準備另一發水果
+}
+void fruitReset(){
+  fruitX=random(100,300);
+  fruitY=300;//固定高度
+  fruitVX=random(-2,+2);
+  fruitVY=-13;
+  flying=true;  
+}
+```
+
+## step03-1_利用class物件,將前一個程式改寫,以便之後做出更多的水果
+
+```processing
+//目標: class物件: 每個水果都可以用物件生出來(值、函式)
+class Fruit{
+  float x, y, vx, vy;
+  boolean flying;
+  PApplet sketch;//為了讓random可以用,修改一下
+  Fruit(PApplet _sketch){ //建構子: 一開始要做的事
+    sketch = _sketch;//為了讓random可以用,修改一下
+    reset();
+  }
+  void reset(){
+    x = sketch.random(100.0, 300.0);//為了讓random可以用,修改一下
+    y = 300;
+    vx = sketch.random(-2,+2);//為了讓random可以用,修改一下
+    vy = -13;
+    flying = true;
+  }
+  void update(){
+    x += vx;
+    y += vy;
+    vy += 0.98/3;//重力加速度    
+  }
+}
+Fruit fruit;
+void setup(){
+  size(400,300);
+  fruit = new Fruit(this);//為了讓random可以用,修改一下
+}
+void draw(){
+  background(255,255,0);
+  ellipse(fruit.x, fruit.y, 50, 50);
+  fruit.update();
+}
+void keyPressed(){
+  fruit.reset();
+}
+```
+
+## step03-2_將class物件的程式分到另一個tab分頁後,程式碼會變得很容易看、容易管理。我們讓每個水果上面畫個字母, 再利用陣列來畫出來, 便能做出很多水果的版本
+
+```processing
+Fruit [] fruits;
+void setup(){
+  size(400,300);
+  fruits = new Fruit[3];
+  for(int i=0; i<3; i++){
+    fruits[i] = new Fruit(this);//為了讓random可以用,修改一下
+  }
+}
+void draw(){
+  background(255,255,0);
+  for(int i=0; i<3; i++){
+    fill(255); ellipse(fruits[i].x, fruits[i].y, 50, 50);
+    textSize(30); 
+    textAlign(CENTER,CENTER);
+    fill(0); text(fruits[i].c, fruits[i].x, fruits[i].y);
+    fruits[i].update();
+  }
+}
+void keyPressed(){
+  for(int i=0; i<3; i++){
+    if( keyCode == fruits[i].c ){
+      fruits[i].reset();
+    }
+  }
+}
+```
+
+另一個程式檔 Fruit.pde
+
+```processing
+//目標: class物件: 每個水果都可以用物件生出來(值、函式)
+String line="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+class Fruit{
+  float x, y, vx, vy;
+  boolean flying;
+  char c;//水果對應的字母
+  PApplet sketch;//為了讓random可以用,修改一下
+  Fruit(PApplet _sketch){ //建構子: 一開始要做的事
+    sketch = _sketch;//為了讓random可以用,修改一下
+    reset();
+  }
+  void reset(){
+    x = sketch.random(100.0, 300.0);//為了讓random可以用,修改一下
+    y = 300;
+    vx = sketch.random(-2,+2);//為了讓random可以用,修改一下
+    vy = -13;
+    flying = true;
+    int i=int(random(26));
+    c = line.charAt(i);
+  }
+  void update(){
+    x += vx;
+    y += vy;
+    vy += 0.98/3;//重力加速度    
+  }
+}
+```
+
+
+## step03-3_讓水果跳起來更有亂數的感覺,所以加上delay並讓超過畫面的水果重生
+
+只修改 Fruit.pde 程式
+```processing
+//目標: class物件: 每個水果都可以用物件生出來(值、函式)
+String line="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+class Fruit{
+  float x, y, vx, vy;
+  boolean flying;
+  int delay;
+  char c;//水果對應的字母
+  PApplet sketch;//為了讓random可以用,修改一下
+  Fruit(PApplet _sketch){ //建構子: 一開始要做的事
+    sketch = _sketch;//為了讓random可以用,修改一下
+    reset();
+  }
+  void reset(){
+    x = sketch.random(100.0, 300.0);//為了讓random可以用,修改一下
+    y = 300;
+    vx = sketch.random(-2,+2);//為了讓random可以用,修改一下
+    vy = -13;
+    flying = true;
+    delay = int(random(150));
+    int i=int(random(26));
+    c = line.charAt(i);
+  }
+  void update(){
+    if(delay>0){
+      delay--;
+      return;
+    }
+    x += vx;
+    y += vy;
+    vy += 0.98/3;//重力加速度    
+    if(y>300) reset();
+  }
+}
+```
