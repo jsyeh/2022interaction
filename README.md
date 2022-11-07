@@ -1940,3 +1940,173 @@ class Fruit{
 
 ## step03-2_撞球_射擊撞球_旋轉_入射角_反射角_碰撞
 
+以下是循序漸進,解釋到底「碰撞反彈」要怎麼做 
+
+撞到下邊界時反彈, 簡單易理解
+
+![image](https://user-images.githubusercontent.com/3252557/200377358-11320e4a-3bcd-4266-8cb8-971980ed1dd6.png)
+
+```processing
+float vx=1, vy=1.3;
+float x=50, y=100;
+void setup(){
+  size(300,200);
+}
+void draw(){
+  ellipse(x,y,3,3);
+  x += vx;
+  y += vy;
+  if( y > 200){
+    vy = - vy;
+  }
+}
+```
+
+修改成, 撞到右邊界時反彈, 簡單易理解
+```processing
+float vx=1, vy=1.3;
+float x=50, y=100;
+void setup(){
+  size(100,300);
+}
+void draw(){
+  ellipse(x,y,3,3);
+  x += vx;
+  y += vy;
+  if( x > 100){
+    //vy = - vy;
+    vx = - vx;
+  }
+}
+```
+
+接下來, 改利用PVector的向量運算, 能不能用內積來做到呢?
+
+![image](https://user-images.githubusercontent.com/3252557/200377257-e8be2c82-eeba-492b-a1b9-4ea4b9c47d4c.png)
+
+
+```processing
+PVector v ;//float vx=1, vy=1.3;
+PVector p ;//float x=50, y=100;
+PVector n ;
+void setup(){
+  size(400,300);
+  v = new PVector(  1, 1.3);
+  p = new PVector( 50, 100);
+  n = new PVector( -1, 0);//法向量
+}
+void draw(){
+  ellipse(p.x,p.y,3,3);
+  p.add(v); //x += vx; y += vy;
+  if( p.x >= 100){
+    //vx = - vx;
+    float green = PVector.dot(v, n);
+    PVector v2 = PVector.mult(n, -green * 2);
+    v.add(v2);
+  }
+}
+```
+
+再做另一個方向類似的修改
+
+```processing
+PVector v ;//float vx=1, vy=1.3;
+PVector p ;//float x=50, y=100;
+PVector n ;
+void setup(){
+  size(300,200);
+  v = new PVector(  1, 1.3);
+  p = new PVector( 50, 100);
+  n = new PVector( 0, -1);//法向量,向上
+}
+void draw(){
+  ellipse(p.x,p.y,3,3);
+  p.add(v); //x += vx; y += vy;
+  if( p.y >= 200){
+    //vx = - vx;
+    float green = PVector.dot(v, n);
+    PVector v2 = PVector.mult(n, -green * 2);
+    v.add(v2);
+  }
+}
+```
+
+上面共通的核心程式, 就是內積 dot() 之後, 修正 v 向量。所以試著亂改一下法向量
+
+```processing
+PVector v ;//float vx=1, vy=1.3;
+PVector p ;//float x=50, y=100;
+PVector n ;
+void setup(){
+  size(300,200);
+  v = new PVector(  1, 1.3);
+  p = new PVector( 50, 100);
+  n = new PVector( -1, -1).normalize();//單位法向量
+}
+void draw(){
+  ellipse(p.x,p.y,3,3);
+  p.add(v); //x += vx; y += vy;
+  if( p.y >= 200){
+    //vx = - vx;
+    float green = PVector.dot(v, n);
+    PVector v2 = PVector.mult(n, -green * 2);
+    v.add(v2);
+  }
+}
+```
+
+最後, 便可以做出 點p 與球的碰撞
+
+```processing
+PVector v ;//float vx=1, vy=1.3;
+PVector p ;//float x=50, y=100;
+void setup(){
+  size(500,500);
+  v = new PVector(  1, 1.3);
+  p = new PVector( 50, 60);
+  frameRate(10);
+}
+void draw(){
+  background(#FFFFF2);
+  ellipse(p.x,p.y,3,3);
+  p.add(v); //x += vx; y += vy;
+  ellipse(mouseX,mouseY,150,150);
+  if( dist(p.x,p.y, mouseX,mouseY)<75 ){
+    //vx = - vx;
+    PVector c = new PVector(mouseX,mouseY);
+    PVector n = PVector.sub(p,c).normalize();//單位法向量
+    float green = PVector.dot(v, n);
+    PVector v2 = PVector.mult(n, -green * 2);
+    v.add(v2);
+    line(c.x, c.y, p.x, p.y);
+  }
+}
+```
+
+最後, 修改成 球跟球的碰撞
+
+```processing
+PVector v ;//float vx=1, vy=1.3;
+PVector p ;//float x=50, y=100;
+void setup(){
+  size(500,500);
+  v = new PVector(  1, 1.3);
+  p = new PVector( 50, 60);
+  frameRate(10);
+}
+void draw(){
+  background(#FFFFF2);
+  ellipse(p.x,p.y,100,100);
+  p.add(v); //x += vx; y += vy;
+  ellipse(mouseX,mouseY,100,100);
+  if( dist(p.x,p.y, mouseX,mouseY)<100){
+    //vx = - vx;
+    PVector c = new PVector(mouseX,mouseY);
+    PVector n = PVector.sub(p,c).normalize();//單位法向量
+    float green = PVector.dot(v, n);
+    PVector v2 = PVector.mult(n, -green * 2);
+    v.add(v2);
+    line(c.x, c.y, p.x, p.y);
+  }
+}
+```
