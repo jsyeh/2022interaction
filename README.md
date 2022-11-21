@@ -2127,3 +2127,24 @@ void draw(){
 ## step03-1_太鼓達人
 
 ## step03-2_拼圖
+
+# Week12
+
+## week12_1卡片交換
+
+## week12-2_network_client_server
+
+## week12_3_pixels_walk
+
+## week12_4_minesweeper
+
+## week12-5_移動黑洞,並吃周圍的物體
+
+## week12-6_每五秒出現一個可以加分的物體
+
+## week12-7_泡泡龍會黏住,再示範一次
+
+## week12-8_很長的背景
+
+## week12-9_模仿Chrome裡的恐龍跳跳跳
+
