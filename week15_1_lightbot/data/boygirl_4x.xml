@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:e11ceb2becacadcad4890adc89c19789:e0a8e997b5e62e2c54431d88e0dcd45a:0bb4a52575f48d746cc5683a5126320c$ -->
+<TextureAtlas imagePath="boygirl_4x.png" width="4096" height="4096">
+    <SubTexture name="charimg0001" x="900" y="458" width="46" height="6" frameX="-193" frameY="-382" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0002" x="3797" y="88" width="295" height="64" frameX="-61" frameY="-324" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0003" x="578" y="800" width="311" height="121" frameX="-51" frameY="-267" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0004" x="767" y="2592" width="331" height="179" frameX="-48" frameY="-209" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0005" x="767" y="1504" width="352" height="248" frameX="-44" frameY="-152" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0006" x="3017" y="2952" width="373" height="320" frameX="-40" frameY="-94" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0007" x="1127" y="2131" width="392" height="391" frameX="-37" frameY="-36" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0008" x="1127" y="1310" width="405" height="386" frameX="-24" frameY="-18" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0009" x="2247" y="2707" width="417" height="388" frameX="-12" frameY="0" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0010" x="1103" y="2524" width="429" height="323" frameX="0" frameY="-65" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0011" x="1" y="1515" width="429" height="258" frameX="0" frameY="-130" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0012" x="767" y="1310" width="354" height="192" frameX="-35" frameY="-196" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0013" x="3797" y="285" width="278" height="175" frameX="-71" frameY="-213" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0014" x="3797" y="1" width="295" height="85" frameX="-61" frameY="-303" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg0015" x="992" y="458" width="1" height="1" frameX="0" frameY="0" frameWidth="429" frameHeight="427"/>
+    <SubTexture name="charimg_girl0001" x="948" y="458" width="42" height="6" frameX="-154" frameY="-345" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0002" x="3797" y="220" width="292" height="63" frameX="-24" frameY="-288" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0003" x="578" y="923" width="308" height="121" frameX="-14" frameY="-230" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0004" x="767" y="2773" width="329" height="178" frameX="-10" frameY="-173" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0005" x="767" y="1754" width="349" height="246" frameX="-7" frameY="-115" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0006" x="1" y="1775" width="369" height="317" frameX="-3" frameY="-58" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0007" x="2626" y="3097" width="389" height="388"/>
+    <SubTexture name="charimg_girl0008" x="2626" y="3097" width="389" height="388"/>
+    <SubTexture name="charimg_girl0009" x="372" y="1775" width="369" height="317" frameX="-3" frameY="-58" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0010" x="767" y="2002" width="348" height="246" frameX="-7" frameY="-115" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0011" x="1098" y="2849" width="328" height="178" frameX="-10" frameY="-173" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0012" x="578" y="1046" width="308" height="121" frameX="-14" frameY="-230" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0013" x="3797" y="154" width="292" height="64" frameX="-24" frameY="-287" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0014" x="948" y="458" width="42" height="6" frameX="-154" frameY="-345" frameWidth="389" frameHeight="388"/>
+    <SubTexture name="charimg_girl0015" x="992" y="458" width="1" height="1" frameX="0" frameY="0" frameWidth="429" frameHeight="426"/>
+    <SubTexture name="full_instr_boybot0001" x="3449" y="2049" width="586" height="278" frameX="-157" frameY="-90" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0002" x="2823" y="1871" width="624" height="340" frameX="-98" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0003" x="2823" y="1529" width="631" height="340" frameX="-98" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0004" x="433" y="3745" width="549" height="340" frameX="-111" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0005" x="984" y="3745" width="549" height="340" frameX="-111" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0006" x="2188" y="864" width="636" height="340" frameX="-111" frameY="-39" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0007" x="2892" y="503" width="651" height="340" frameX="-111" frameY="-39" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0008" x="2195" y="343" width="695" height="519" frameX="-71" frameY="0" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0009" x="1" y="458" width="897" height="340" frameX="0" frameY="-40" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0010" x="1144" y="1" width="1049" height="471" frameX="0" frameY="-387" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0011" x="1" y="1" width="1141" height="455" frameX="0" frameY="-357" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0012" x="2195" y="1" width="897" height="340" frameX="0" frameY="-41" frameWidth="1227" frameHeight="1055"/>
+    <SubTexture name="full_instr_boybot0013" x="3392" y="3044" width="450" height="280" frameX="-196" frameY="-401" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_boybot0014" x="3094" y="1" width="701" height="500" frameX="-3" frameY="-388" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0001" x="2805" y="2213" width="586" height="278" frameX="-159" frameY="-90" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0002" x="2179" y="1905" width="624" height="340" frameX="-98" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0003" x="3456" y="1707" width="631" height="340" frameX="-98" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0004" x="1" y="2250" width="549" height="340" frameX="-111" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0005" x="552" y="2250" width="549" height="340" frameX="-111" frameY="-41" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0006" x="2826" y="1187" width="636" height="340" frameX="-111" frameY="-39" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0007" x="2892" y="845" width="651" height="340" frameX="-111" frameY="-39" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0008" x="2195" y="343" width="695" height="519" frameX="-71" frameY="0" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0009" x="1" y="458" width="897" height="340" frameX="0" frameY="-40" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0010" x="1144" y="1" width="1049" height="471" frameX="0" frameY="-387" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0011" x="1" y="1" width="1141" height="455" frameX="0" frameY="-357" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0012" x="2195" y="1" width="897" height="340" frameX="0" frameY="-41" frameWidth="1227" frameHeight="1055"/>
+    <SubTexture name="full_instr_girlbot0013" x="3392" y="3044" width="450" height="280" frameX="-196" frameY="-401" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_instr_girlbot0014" x="3094" y="1" width="701" height="500" frameX="-3" frameY="-388" frameWidth="1141" frameHeight="888"/>
+    <SubTexture name="full_levelsets_boybot0001" x="2103" y="2247" width="565" height="458" frameX="-66" frameY="-265" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0002" x="1695" y="3044" width="550" height="443" frameX="-74" frameY="-288" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0003" x="1535" y="1991" width="566" height="614" frameX="-68" frameY="-136" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0004" x="3545" y="503" width="550" height="600" frameX="-77" frameY="-158" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0005" x="1" y="800" width="575" height="713" frameX="-62" frameY="-10" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0006" x="1" y="3044" width="561" height="699" frameX="-69" frameY="-32" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0007" x="2188" y="1206" width="633" height="697" frameX="-20" frameY="-30" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0008" x="1544" y="1296" width="633" height="693" frameX="-20" frameY="-45" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_boybot0009" x="900" y="474" width="642" height="834" frameX="-29" frameY="-10" frameWidth="703" frameHeight="864"/>
+    <SubTexture name="full_levelsets_boybot0010" x="1544" y="474" width="642" height="820" frameX="-29" frameY="-25" frameWidth="703" frameHeight="864"/>
+    <SubTexture name="full_levelsets_girlbot0001" x="2670" y="2493" width="565" height="457" frameX="-66" frameY="-264" frameWidth="706" frameHeight="770"/>
+    <SubTexture name="full_levelsets_girlbot0002" x="1914" y="3489" width="550" height="442" frameX="-74" frameY="-287" frameWidth="706" frameHeight="770"/>
+    <SubTexture name="full_levelsets_girlbot0003" x="1127" y="3044" width="566" height="614" frameX="-68" frameY="-134" frameWidth="706" frameHeight="770"/>
+    <SubTexture name="full_levelsets_girlbot0004" x="3545" y="1105" width="550" height="600" frameX="-77" frameY="-156" frameWidth="706" frameHeight="770"/>
+    <SubTexture name="full_levelsets_girlbot0005" x="3393" y="2329" width="576" height="713" frameX="-61" frameY="-8" frameWidth="706" frameHeight="770"/>
+    <SubTexture name="full_levelsets_girlbot0006" x="564" y="3044" width="561" height="699" frameX="-69" frameY="-30" frameWidth="706" frameHeight="770"/>
+    <SubTexture name="full_levelsets_girlbot0007" x="2188" y="1206" width="633" height="697" frameX="-20" frameY="-30" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_girlbot0008" x="1544" y="1296" width="633" height="693" frameX="-20" frameY="-45" frameWidth="704" frameHeight="772"/>
+    <SubTexture name="full_levelsets_girlbot0009" x="900" y="474" width="642" height="834" frameX="-29" frameY="-10" frameWidth="703" frameHeight="864"/>
+    <SubTexture name="full_levelsets_girlbot0010" x="1544" y="474" width="642" height="820" frameX="-29" frameY="-25" frameWidth="703" frameHeight="864"/>
+    <SubTexture name="instrBot_boy0001" x="1534" y="2607" width="377" height="420" frameX="-2" frameY="-13" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="instrBot_boy0002" x="1535" y="3660" width="377" height="420" frameX="-2" frameY="-13" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="instrBot_boy0003" x="2466" y="3488" width="377" height="418" frameX="-2" frameY="-25" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="instrBot_boy0004" x="1127" y="1698" width="397" height="431" frameX="-2" frameY="-2" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="instrBot_boy0005" x="380" y="2607" width="385" height="431" frameX="-2" frameY="-2" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="instrBot_boy0006" x="1" y="2607" width="377" height="433" frameX="-2" frameY="0" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="instrBot_boy0007" x="2845" y="3487" width="377" height="407" frameX="-2" frameY="-26" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="instrBot_boy0008" x="2247" y="3097" width="377" height="389" frameX="-2" frameY="-44" frameWidth="399" frameHeight="447"/>
+    <SubTexture name="lighthelpboy0001" x="1" y="3745" width="430" height="342"/>
+    <SubTexture name="lighthelpboy0002" x="1" y="3745" width="430" height="342"/>
+    <SubTexture name="lighthelpgirl0001" x="1" y="3745" width="430" height="342"/>
+    <SubTexture name="lighthelpgirl0002" x="1" y="3745" width="430" height="342"/>
+</TextureAtlas>
